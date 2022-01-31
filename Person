@@ -1,0 +1,50 @@
+import java.util.PriorityQueue;
+
+public class Person implements Comparable<Person>{
+    /** static counter to keep tracks of how many Persons have been instantiated already*/
+    static int insertionOrder = 0;
+
+    //instance variables
+    int insertionPriority;
+    String name;
+    int age;
+
+    //constructor
+    public Person(String name, int age){
+        this.name = name;
+        this.age = age;
+
+        //assign current insertionOrder to insertionPriority of this Person
+        this.insertionPriority = insertionOrder;
+
+        //increment insertion order
+        insertionOrder++;
+    }
+    @Override
+    public int compareTo(Person other) {
+        //younger age has higher priority
+        if (this.age != other.age){
+            return this.age - other.age;
+        }
+        //if there is a tie for age, compare by insertionPriority
+        else{
+            return this.insertionPriority - other.insertionPriority;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + age ;
+    }
+
+    public static void main(String[] args) {
+        PriorityQueue<Person> persons = new PriorityQueue<>();
+        persons.add(new Person("joe", 30));
+        persons.add(new Person("mary", 20));
+        persons.add(new Person("tom", 40));
+        persons.add(new Person("jane", 30));
+        persons.add(new Person("bob", 30));
+
+        while (!persons.isEmpty()) System.out.println(persons.remove());
+    }
+}
